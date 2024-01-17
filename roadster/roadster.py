@@ -32,8 +32,8 @@ def save_route(route, distance_km, speed_kmph):
 
 ### PART 1A ###
 def consumption(v):
-    # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
-    raise NotImplementedError('consumption not implemented yet!')
+    assert np.all(v>=0)
+    return (546.8*v**(-1) + 50.31 + 0.2594*v + 0.008210*v**2)
 
 ### PART 1B ###
 def velocity(x, route):
