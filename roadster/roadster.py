@@ -1,5 +1,6 @@
 import numpy as np
 from scipy import interpolate
+import scipy.integrate as sci
 
 
 def load_route(route):
@@ -58,9 +59,9 @@ def velocity(x, route):
 
 ### PART 2A ###
 def time_to_destination(x, route, N):
-    deltax = x / (N - 1)
-    fx = [velocity(i, route) for i in [n * deltax for n in range(0, N)]]
-    return deltax / 2 * (-fx[-1] - fx[0] + np.sum(fx))
+    xDelta = x / (N - 1)
+    fx = 1 / velocity(np.array([n * xDelta for n in range(0, N)]), route)
+    return xDelta / 2 * (-fx[-1] - fx[0] + 2 * np.sum(fx))
 
 
 ### PART 2B ###
