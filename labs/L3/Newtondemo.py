@@ -2,7 +2,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import TextBox, Slider, Button
-from matplotlib.cbook import mplDeprecation
 import warnings
 
 # Display info about the program
@@ -23,7 +22,6 @@ def fprime(x):
     return 2*x - 4*np.cos(x)
 
 # Hide warning "Toggling axes navigation from the keyboard is deprecated..." when typing in textbox. 
-warnings.filterwarnings("ignore",category=mplDeprecation)
 
 # Global variable to keep track of current iteration
 iter_no = 0

@@ -70,7 +70,6 @@ def total_consumption(x, route, N):
     fx = consumption(velocity(np.array([n * xDelta for n in range(0, N)]), route))
     return xDelta / 2 * (-fx[-1] - fx[0] + 2 * np.sum(fx))
 
-
 ### PART 3A ###
 def distance(T, route):
     # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
