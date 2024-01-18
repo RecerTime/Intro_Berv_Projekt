@@ -66,8 +66,9 @@ def time_to_destination(x, route, N):
 
 ### PART 2B ###
 def total_consumption(x, route, N):
-    # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
-    raise NotImplementedError("total_consumption not implemented yet!")
+    xDelta = x / (N - 1)
+    fx = consumption(velocity(np.array([n * xDelta for n in range(0, N)]), route))
+    return xDelta / 2 * (-fx[-1] - fx[0] + 2 * np.sum(fx))
 
 
 ### PART 3A ###
