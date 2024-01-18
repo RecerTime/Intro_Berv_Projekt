@@ -2,7 +2,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button, TextBox
-from matplotlib.cbook import mplDeprecation
 import warnings
 from math import pi
 
@@ -59,7 +58,6 @@ def plot_polys(x,ax):
     return lines
 
 # Hide warning "Toggling axes navigation from the keyboard is deprecated..." when typing in textbox. 
-warnings.filterwarnings("ignore",category=mplDeprecation)
 
 print("---------------------------------------------------------")
 print("Adaptive Simpson's method for the integral of")
@@ -73,7 +71,6 @@ print("3. Quit the program by closing the figure window.")
 print("---------------------------------------------------------")
 
 # Hide warning "Toggling axes navigation from the keyboard is deprecated..." when typing in textbox. 
-warnings.filterwarnings("ignore",category=mplDeprecation)
 
 # Set integral parameters
 xl = -pi

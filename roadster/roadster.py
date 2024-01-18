@@ -56,19 +56,19 @@ def velocity(x, route):
     v = interpolate.pchip_interpolate(distance_km, speed_kmph, x)
     return v
 
-
 ### PART 2A ###
 def time_to_destination(x, route, N):
-    xDelta = x / (N - 1)
-    fx = 1 / velocity(np.array([n * xDelta for n in range(0, N)]), route)
-    return xDelta / 2 * (-fx[-1] - fx[0] + 2 * np.sum(fx))
-
+    x_step = x / (N - 1)
+    x_array = np.linspace(0, x, N)
+    fx = 1 / velocity(x_array, route)
+    return x_step * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
 ### PART 2B ###
 def total_consumption(x, route, N):
-    xDelta = x / (N - 1)
-    fx = consumption(velocity(np.array([n * xDelta for n in range(0, N)]), route))
-    return xDelta / 2 * (-fx[-1] - fx[0] + 2 * np.sum(fx))
+    x_step = x / (N - 1)
+    x_array = np.linspace(0, x, N)
+    fx = consumption(velocity(x_array, route))
+    return x_step * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
 ### PART 3A ###
 def distance(T, route):
