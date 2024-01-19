@@ -56,11 +56,13 @@ def velocity(x, route):
     v = interpolate.pchip_interpolate(distance_km, speed_kmph, x)
     return v
 
+
 ### PART 2A ###
 def time_to_destination(x, route, N):
     h = x / (N - 1)
     fx = 1 / velocity(np.linspace(0, x, N), route)
     return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
+
 
 ### PART 2B ###
 def total_consumption(x, route, N):
@@ -68,10 +70,31 @@ def total_consumption(x, route, N):
     fx = consumption(velocity(np.linspace(0, x, N), route))
     return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
+
 ### PART 3A ###
 def distance(T, route):
-    # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
-    raise NotImplementedError("distance not implemented yet!")
+    pos, vel = load_route(route)
+    assert np.all(T <= time_to_destination(pos[-1], route, 20)), "T too large"
+    xTest = 0.4
+    m = 1
+    tolerance = 0.00001
+    err = 1
+    zero = time_to_destination(xTest, route, 20) - T
+    while (zero != 0) and (np.abs(err) > tolerance):
+        err = (zero) / (
+            (
+                time_to_destination(xTest + tolerance, route, 20)
+                - time_to_destination(xTest, route, 20)
+            )
+            / tolerance
+        )
+
+        xTest = xTest - m * err
+        if xTest > pos[-1]:
+            xTest = pos[-1]
+        print("x", xTest)
+        print("error", np.abs(err))
+    return xTest
 
 
 ### PART 3B ###
@@ -83,3 +106,4 @@ def reach(C, route):
 if __name__ == "__main__":
     x, v = load_route("speed_anna.npz")
     print(time_to_destination(x[-1], "speed_anna.npz", 10))
+    distance(1, "speed_anna.npz")
