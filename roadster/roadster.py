@@ -58,17 +58,15 @@ def velocity(x, route):
 
 ### PART 2A ###
 def time_to_destination(x, route, N):
-    x_step = x / (N - 1)
-    x_array = np.linspace(0, x, N)
-    fx = 1 / velocity(x_array, route)
-    return x_step * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
+    h = x / (N - 1)
+    fx = 1 / velocity(np.linspace(0, x, N), route)
+    return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
 ### PART 2B ###
 def total_consumption(x, route, N):
-    x_step = x / (N - 1)
-    x_array = np.linspace(0, x, N)
-    fx = consumption(velocity(x_array, route))
-    return x_step * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
+    h = x / (N - 1)
+    fx = consumption(velocity(np.linspace(0, x, N), route))
+    return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
 ### PART 3A ###
 def distance(T, route):
