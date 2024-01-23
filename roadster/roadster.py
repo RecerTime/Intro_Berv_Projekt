@@ -1,7 +1,5 @@
 import numpy as np
 from scipy import interpolate
-import scipy.integrate as sci
-
 
 def load_route(route):
     """
@@ -70,10 +68,6 @@ def total_consumption(x, route, N):
 
 ### PART 3A ###
 def distance(T, route):
-<<<<<<< Updated upstream
-    # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
-    raise NotImplementedError("distance not implemented yet!")
-=======
     pos, vel = load_route(route)
     #assert np.all(T <= time_to_destination(pos[-1], route, 20)), "T too large"
     xTest = 0.4
@@ -92,7 +86,6 @@ def distance(T, route):
         print("x", xTest)
         print("error", np.abs(err))
     return xTest
->>>>>>> Stashed changes
 
 
 ### PART 3B ###
@@ -102,17 +95,11 @@ def reach(C, route):
 
 
 if __name__ == "__main__":
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     x, v = load_route("speed_anna.npz")
     print(time_to_destination(x[-1], "speed_anna.npz", 10))
-=======
     #x, v = load_route("speed_anna.npz")
     #print(time_to_destination(x[-1], "speed_anna.npz", 10))
     distance(1, "roadster/speed_anna.npz")
->>>>>>> Stashed changes
-=======
     #x, v = load_route("speed_anna.npz")
     #print(time_to_destination(x[-1], "speed_anna.npz", 10))
     distance(1, "roadster/speed_anna.npz")
->>>>>>> Stashed changes

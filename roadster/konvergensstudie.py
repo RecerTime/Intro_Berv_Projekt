@@ -1,7 +1,6 @@
 import roadster
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy import integrate
 
 n_base = 8
 n_stop = 15
@@ -14,7 +13,7 @@ N = n + 1
 x, raw_v = roadster.load_route(route)
 x_max = x[-1]
 
-ch = np.array([roadster.time_to_destination(x_max, route, i) - roadster.time_to_destination(x_max, route, 2*i) for i in n])/3
+ch = np.array([(roadster.time_to_destination(x_max, route, i) - roadster.time_to_destination(x_max, route, 2*i))/3 for i in n])
 
 print(ch)
 
