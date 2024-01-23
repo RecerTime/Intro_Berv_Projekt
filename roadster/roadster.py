@@ -103,8 +103,14 @@ def reach(C, route):
 
 if __name__ == "__main__":
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     x, v = load_route("speed_anna.npz")
     print(time_to_destination(x[-1], "speed_anna.npz", 10))
+=======
+    #x, v = load_route("speed_anna.npz")
+    #print(time_to_destination(x[-1], "speed_anna.npz", 10))
+    distance(1, "roadster/speed_anna.npz")
+>>>>>>> Stashed changes
 =======
     #x, v = load_route("speed_anna.npz")
     #print(time_to_destination(x[-1], "speed_anna.npz", 10))
