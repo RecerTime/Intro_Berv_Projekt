@@ -14,15 +14,20 @@ N = n + 1
 x, raw_v = roadster.load_route(route)
 x_max = x[-1]
 
-ch = np.array([roadster.time_to_destination(x_max, route, i) - roadster.time_to_destination(x_max, route, 2*i) for i in n])/3
+f_to_integrate = lambda x: 1/roadster.velocity(x, route)
+true_val = integrate.quad(f_to_integrate, 0, x_max)[0]
 
-print(ch)
+#ch = np.array([roadster.time_to_destination(x_max, route, i) - roadster.time_to_destination(x_max, route, 2*i) for i in n])/3
+error = [roadster.time_to_destination(x_max, route, i)-true_val for i in N]
+
+print([error[i+1]/error[i] for i in range(len(n)-1)])
+#print(ch)
 
 fig_v, ax_v = plt.subplots()
-fig_v.suptitle('Tid för olika N')
+fig_v.suptitle('Error för olika N')
 ax_v.set_xlabel('N')
-ax_v.set_ylabel('Tid (h)')
-ax_v.loglog(n, ch)
+ax_v.set_ylabel('Error')
+ax_v.loglog(n, error)
 
 '''
 consump = np.array([roadster.total_consumption(x_max, route, i) for i in N])
