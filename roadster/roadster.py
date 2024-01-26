@@ -1,7 +1,5 @@
 import numpy as np
 from scipy import interpolate
-import scipy.integrate as sci
-
 
 def load_route(route):
     """
