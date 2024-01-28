@@ -68,24 +68,23 @@ def total_consumption(x, route, N):
     fx = consumption(velocity(np.linspace(0, x, N), route))
     return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
+def newtons_method(fx, fx_prime, tolerance, inital_x):
+    x = inital_x
+    while abs(fx(x)) >= tolerance:
+        x -= fx(x)/fx_prime(x)
+    return x
 
 ### PART 3A ###
 def distance(T, route):
-    points = 10000001
-    x = 0.4
-    tolerance = 1e-10
-
-    time = lambda x: time_to_destination(x, route, points) - T
+    time = lambda x: time_to_destination(x, route, 10000001) - T
     vel = lambda x: 1/velocity(x, route)
-
-    while abs(time(x)) >= tolerance:
-        x -= time(x)/vel(x)
-    return x
+    return newtons_method(time, vel, 1e-10, 0.4)
 
 ### PART 3B ###
 def reach(C, route):
-    # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
-    raise NotImplementedError("reach not implemented yet!")
+    tot_consump = lambda x: total_consumption(x, route, 10000001) - C
+    consump = lambda x: consumption(velocity(x, route))
+    return newtons_method(tot_consump, consump, 1e-10, 0.5)
 
 if __name__ == "__main__":
     route = "speed_anna.npz"
