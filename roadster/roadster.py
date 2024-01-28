@@ -48,10 +48,6 @@ def velocity(x, route):
     """
     # Load data
     distance_km, speed_kmph = load_route(route)
-    # Check input ok?
-    max = np.max(x)
-    if distance_km[-1] < max:
-        print('oopsie')
     # Interpolate
     v = interpolate.pchip_interpolate(distance_km, speed_kmph, x)
     return v
@@ -89,18 +85,3 @@ def reach(C, route):
     tot_consump = lambda x: total_consumption(x, route, 10000001) - C
     consump = lambda x: consumption(velocity(x, route))
     return newtons_method(tot_consump, consump, 1e-4, load_route(route)[0][-1])
-
-if __name__ == "__main__":
-    route = "C:/UU/Introduktion till beräkningsvetenskap/Intro_Berv_Projekt/roadster/speed_elsa.npz"
-    points = 1000
-    T = 10000
-
-    x, vel = load_route(route)
-    print(total_consumption(x[-1], route, points))
-    time = [total_consumption(i, route, points) for i in x]
-    plt.plot(x, time)
-    plt.plot(x, [T]*len(x))
-
-    x = reach(10000, route)
-    print(f'Distance done in {total_consumption(x, route, 5000)}: {x}')
-    plt.show()
