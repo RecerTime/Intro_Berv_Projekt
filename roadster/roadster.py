@@ -73,7 +73,7 @@ def total_consumption(x, route, N):
 def distance(T, route):
     points = 5000
     x = 0.4
-    tolerance = 0.001
+    tolerance = 0.00001
     time = lambda x: time_to_destination(x, route, points) - T
     vel = lambda x: 1/velocity(x, route)
 
@@ -90,12 +90,15 @@ def reach(C, route):
 
 if __name__ == "__main__":
     route = "roadster/speed_anna.npz"
+    points = 5000
+    T = 0.5
+
     x, vel = load_route(route)
-    print(time_to_destination(x[-1], route, 5000))
-    time = [time_to_destination(i, route, 5000) for i in x]
+    print(time_to_destination(x[-1], route, points))
+    time = [time_to_destination(i, route, points) for i in x]
     plt.plot(x, time)
-    plt.plot(x, [0.5 for i in x])
-    #plt.show()
-    x = distance(0.5, route)
-    print(x)
-    print(time_to_destination(x, route, 5000))
+    plt.plot(x, [time]*len(x))
+
+    x = distance(time, route)
+    print(f'Distance done in {0.5}: {x}')
+    plt.show()
