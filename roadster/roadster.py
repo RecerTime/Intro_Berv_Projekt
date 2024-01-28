@@ -1,6 +1,5 @@
 import numpy as np
 from scipy import interpolate
-import matplotlib.pyplot as plt
 
 def load_route(route):
     """
@@ -21,7 +20,6 @@ def load_route(route):
     speed_kmph = data["speed_kmph"]
     return distance_km, speed_kmph
 
-
 def save_route(route, distance_km, speed_kmph):
     """
     Write speed data to route file. Example usage:
@@ -32,12 +30,10 @@ def save_route(route, distance_km, speed_kmph):
     """
     np.savez(route, distance_km=distance_km, speed_kmph=speed_kmph)
 
-
 ### PART 1A ###
 def consumption(v):
     assert np.all(v >= 0)
     return 546.8 * v ** (-1) + 50.31 + 0.2594 * v + 0.008210 * v**2
-
 
 ### PART 1B ###
 def velocity(x, route):
@@ -52,13 +48,11 @@ def velocity(x, route):
     v = interpolate.pchip_interpolate(distance_km, speed_kmph, x)
     return v
 
-
 ### PART 2A ###
 def time_to_destination(x, route, N):
     h = x / (N - 1)
     fx = 1 / velocity(np.linspace(0, x, N), route)
     return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
-
 
 ### PART 2B ###
 def total_consumption(x, route, N):
