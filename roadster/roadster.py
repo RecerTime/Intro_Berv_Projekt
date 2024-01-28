@@ -49,7 +49,9 @@ def velocity(x, route):
     # Load data
     distance_km, speed_kmph = load_route(route)
     # Check input ok?
-    assert np.max(x) <= distance_km[-1], "x must be smaller than route length"
+    max = np.max(x)
+    if distance_km[-1] < max:
+        print('oopsie')
     # Interpolate
     v = interpolate.pchip_interpolate(distance_km, speed_kmph, x)
     return v
@@ -68,26 +70,37 @@ def total_consumption(x, route, N):
     fx = consumption(velocity(np.linspace(0, x, N), route))
     return h * (2 * np.sum(fx) - fx[-1] - fx[0]) / 2
 
-def newtons_method(fx, fx_prime, tolerance, inital_x):
-    x = inital_x
+def newtons_method(fx, fx_prime, tolerance, x_max):
+    x = x_max/2
     while abs(fx(x)) >= tolerance:
         x -= fx(x)/fx_prime(x)
+        if x > x_max:
+            return x_max
     return x
 
 ### PART 3A ###
 def distance(T, route):
     time = lambda x: time_to_destination(x, route, 10000001) - T
     vel = lambda x: 1/velocity(x, route)
-    return newtons_method(time, vel, 1e-10, 0.4)
+    return newtons_method(time, vel, 1e-4, load_route(route)[0][-1])
 
 ### PART 3B ###
 def reach(C, route):
     tot_consump = lambda x: total_consumption(x, route, 10000001) - C
     consump = lambda x: consumption(velocity(x, route))
-    return newtons_method(tot_consump, consump, 1e-10, 0.5)
+    return newtons_method(tot_consump, consump, 1e-4, load_route(route)[0][-1])
 
 if __name__ == "__main__":
-    route = "speed_anna.npz"
-    x = distance(0.5, route)
-    print(f'Distance done in {time_to_destination(x, route, 5000)}: {x}')
+    route = "C:/UU/Introduktion till beräkningsvetenskap/Intro_Berv_Projekt/roadster/speed_elsa.npz"
+    points = 1000
+    T = 10000
+
+    x, vel = load_route(route)
+    print(total_consumption(x[-1], route, points))
+    time = [total_consumption(i, route, points) for i in x]
+    plt.plot(x, time)
+    plt.plot(x, [T]*len(x))
+
+    x = reach(10000, route)
+    print(f'Distance done in {total_consumption(x, route, 5000)}: {x}')
     plt.show()
