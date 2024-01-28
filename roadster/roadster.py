@@ -71,15 +71,15 @@ def total_consumption(x, route, N):
 
 ### PART 3A ###
 def distance(T, route):
-    points = 5000
+    points = 10000001
     x = 0.4
-    tolerance = 0.00001
+    tolerance = 1e-10
+
     time = lambda x: time_to_destination(x, route, points) - T
     vel = lambda x: 1/velocity(x, route)
 
     while abs(time(x)) >= tolerance:
         x -= time(x)/vel(x)
-
     return x
 
 ### PART 3B ###
@@ -87,18 +87,8 @@ def reach(C, route):
     # REMOVE THE FOLLOWING LINE AND WRITE YOUR SOLUTION
     raise NotImplementedError("reach not implemented yet!")
 
-
 if __name__ == "__main__":
-    route = "roadster/speed_anna.npz"
-    points = 5000
-    T = 0.5
-
-    x, vel = load_route(route)
-    print(time_to_destination(x[-1], route, points))
-    time = [time_to_destination(i, route, points) for i in x]
-    plt.plot(x, time)
-    plt.plot(x, [time]*len(x))
-
-    x = distance(time, route)
-    print(f'Distance done in {0.5}: {x}')
+    route = "speed_anna.npz"
+    x = distance(0.5, route)
+    print(f'Distance done in {time_to_destination(x, route, 5000)}: {x}')
     plt.show()
