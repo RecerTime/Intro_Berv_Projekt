@@ -4,7 +4,7 @@ import numpy as np
 
 route = "roadster/speed_anna.npz"
 
-n = 8*np.array([(2**i) for i in range(0, 20)])
+n = 16*np.array([(2**i) for i in range(22)])
 
 x, raw_v = roadster.load_route(route)
 
@@ -16,4 +16,6 @@ fig_v.suptitle('Error för olika n')
 ax_v.set_xlabel('n')
 ax_v.set_ylabel('Error')
 ax_v.loglog(n, c2h2)
+ax_v.loglog(n, x[-1]/n)
+ax_v.loglog(n, (x[-1]/n)**2)
 plt.show()

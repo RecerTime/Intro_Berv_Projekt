@@ -62,11 +62,17 @@ def total_consumption(x, route, N):
 
 def newtons_method(fx, fx_prime, tolerance, x_max):
     x = x_max/2
-    while abs(fx(x)) >= tolerance:
-        x -= fx(x)/fx_prime(x)
-        if x > x_max:
+    for i in range(10000):
+        x1 = x - fx(x)/fx_prime(x)
+        
+        if np.abs(x1-x) <= tolerance:
+            break
+
+        if x1 > x_max:
             return x_max
-    return x
+        
+        x = x1
+    return x1
 
 ### PART 3A ###
 def distance(T, route):
