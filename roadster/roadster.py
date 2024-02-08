@@ -44,6 +44,9 @@ def velocity(x, route):
     """
     # Load data
     distance_km, speed_kmph = load_route(route)
+    # Check input ok?
+    assert np.all(x>=0), 'x must be non-negative'
+    assert np.all(x<=distance_km[-1]), 'x must be smaller than route length'
     # Interpolate
     v = interpolate.pchip_interpolate(distance_km, speed_kmph, x)
     return v
