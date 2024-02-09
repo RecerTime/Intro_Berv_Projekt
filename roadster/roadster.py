@@ -65,7 +65,7 @@ def total_consumption(x, route, N):
 
 def newtons_method(fx, fx_prime, tolerance, x_max):
     x = x_max/2
-    for i in range(100):
+    for _ in range(100):
         dx = fx(x)/fx_prime(x)
         x -= dx 
         
