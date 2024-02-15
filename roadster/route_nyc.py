@@ -25,16 +25,16 @@ def route_nyc(t,x):
     return pchip_2d(data_t,data_x,nyc_velocity,t,x)-10
 
 ### PART 4A ###
-def nyc_route_traveler_euler(t0, h):
-    hlst = np.arange(t0, 24, h)
-    distance_km = np.zeros(len(hlst))
-    speed_kmph = np.zeros(len(hlst))
+def nyc_route_traveler_euler(t0, h): # With np.array
+    time_h = np.arange(t0, 24, h)
+    distance_km = np.zeros(len(time_h))
+    speed_kmph = np.zeros(len(time_h))
 
     distance_km[0] = 0
-    speed_kmph[0] = route_nyc(t=t0, x=0)[0][0]
+    speed_kmph[0] = route_nyc(t=t0, x=0)[0][0] # Returns a weird np.array with one entery
 
     index = 0
-    for i, t in enumerate(hlst[1:]):
+    for i, t in enumerate(time_h[1:]):
         i += 1
         n_distance_km = h*speed_kmph[i-1] + distance_km[i-1]
         if n_distance_km > 60: break
@@ -43,16 +43,15 @@ def nyc_route_traveler_euler(t0, h):
         speed_kmph[i] = route_nyc(t, n_distance_km)[0][0]
         index = i
 
-    x_diff = 60 - distance_km[index]
-    t_diff = x_diff / speed_kmph[index]
+    t_diff = (60 - distance_km[index]) / speed_kmph[index]
 
     distance_km[index + 1] = (60)
-    hlst[index + 1] = hlst[index] + t_diff
-    speed_kmph[index + 1] = (route_nyc(hlst[index + 1], 60)[0][0])
+    time_h[index + 1] = time_h[index] + t_diff
+    speed_kmph[index + 1] = (route_nyc(time_h[index + 1], 60)[0][0])
 
-    return hlst[:index + 2], distance_km[:index + 2], speed_kmph[:index + 2]
+    return time_h[:index + 2], distance_km[:index + 2], speed_kmph[:index + 2]
 
-#def nyc_route_traveler_euler(t0, h):
+#def nyc_route_traveler_euler(t0, h): # With lists
     time_h = [t0]
     distance_km = [0]
     speed_kmph = [route_nyc(t0, 0)[0][0]]
@@ -66,8 +65,7 @@ def nyc_route_traveler_euler(t0, h):
       speed_kmph.append(route_nyc(t, n_distance_km)[0][0])
       time_h.append(t)
 
-    x_diff = 60 - distance_km[-1]
-    t_diff = x_diff / speed_kmph[-1]
+    t_diff = 60 - distance_km[-1] / speed_kmph[-1]
 
     distance_km.append(60)
     time_h.append(time_h[-1] + t_diff)
