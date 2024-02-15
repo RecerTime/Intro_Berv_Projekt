@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import interpolate
-
+from route_nyc import nyc_route_traveler_euler 
 def load_route(route):
     """
     Get speed data from route .npz-file. Example usage:
@@ -87,3 +87,12 @@ def reach(C, route):
     tot_consump = lambda x: total_consumption(x, route, 10000001) - C
     consump = lambda x: consumption(velocity(x, route))
     return newtons_method(tot_consump, consump, 1e-4, load_route(route)[0][-1])
+
+if __name__ == "__main__":
+    j_time_h, j_distance_km, j_speed_kmph = nyc_route_traveler_euler(0.8, 0.01)
+    save_route("route_jakob.npz", j_distance_km, j_speed_kmph)
+    randomInt = np.random.randint(len(j_distance_km))
+    print(len(j_distance_km))
+    print(randomInt)
+    tCompare = time_to_destination(j_distance_km[randomInt], "route_jakob.npz", 100)
+    print(f"route:{j_time_h[randomInt]}, funktion {tCompare}")
