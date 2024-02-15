@@ -1,4 +1,3 @@
-from scipy import interpolate
 import numpy as np 
 from pchip_2d import pchip_2d
 
@@ -25,8 +24,6 @@ def route_nyc(t,x):
     """
     return pchip_2d(data_t,data_x,nyc_velocity,t,x)-10
 
-
-
 ### PART 4A ###
 def nyc_route_traveler_euler(t0, h):
     hlst = np.arange(t0, 24, h)
@@ -41,6 +38,7 @@ def nyc_route_traveler_euler(t0, h):
         i += 1
         n_distance_km = h*speed_kmph[i-1] + distance_km[i-1]
         if n_distance_km > 60: break
+
         distance_km[i] = n_distance_km
         speed_kmph[i] = route_nyc(t, n_distance_km)[0][0]
         index = i
@@ -63,6 +61,7 @@ def nyc_route_traveler_euler(t0, h):
       t = time_h[-1] + h
       n_distance_km = h*speed_kmph[-1] + distance_km[-1]
       if n_distance_km > 60: break
+
       distance_km.append(n_distance_km)
       speed_kmph.append(route_nyc(t, n_distance_km)[0][0])
       time_h.append(t)
