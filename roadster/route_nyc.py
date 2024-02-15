@@ -28,56 +28,52 @@ def route_nyc(t,x):
 
 
 ### PART 4A ###
-#def nyc_route_traveler_euler(t0, h):
-    x_start = 0
-    max_x = 60
-
+def nyc_route_traveler_euler(t0, h):
     hlst = np.arange(t0, 24, h)
     distance_km = np.zeros(len(hlst))
     speed_kmph = np.zeros(len(hlst))
 
-    distance_km[0] = x_start
-    initial_speed = route_nyc(t=t0, x=x_start)[0][0]
-    speed_kmph[0] = initial_speed
+    distance_km[0] = 0
+    speed_kmph[0] = route_nyc(t=t0, x=0)[0][0]
 
-    last_index = 0
-
+    index = 0
     for i, t in enumerate(hlst[1:]):
         i += 1
-        finished = False
-
         n_distance_km = h*speed_kmph[i-1] + distance_km[i-1]
-        if n_distance_km > max_x:
-          x_diff = max_x - n_distance_km
-          n_distance_km = max_x
-          finished = True
-          
+        if n_distance_km > 60: break
         distance_km[i] = n_distance_km
         speed_kmph[i] = route_nyc(t, n_distance_km)[0][0]
-        if finished: break
-    arr = [*range(last_index, len(hlst))]
-    return np.delete(hlst, arr), np.delete(distance_km, arr), np.delete(speed_kmph, arr)
+        index = i
 
-def nyc_route_traveler_euler(t0, h):
-  time_h = [t0]
-  distance_km = [0]
-  speed_kmph = [route_nyc(t0, 0)[0][0]]
+    x_diff = 60 - distance_km[index]
+    t_diff = x_diff / speed_kmph[index]
 
-  while time_h[-1] <= 24:
-    t = time_h[-1] + h
-    n_distance_km = h*speed_kmph[-1] + distance_km[-1]
-    if n_distance_km > 60: break
-    distance_km.append(n_distance_km)
-    speed_kmph.append(route_nyc(t, n_distance_km)[0][0])
-    time_h.append(t)
+    distance_km[index + 1] = (60)
+    hlst[index + 1] = hlst[index] + t_diff
+    speed_kmph[index + 1] = (route_nyc(hlst[index + 1], 60)[0][0])
 
-  x_diff = 60 - distance_km[-1]
-  t_diff = x_diff / speed_kmph[-1]
+    return hlst[:index + 2], distance_km[:index + 2], speed_kmph[:index + 2]
 
-  distance_km.append(60)
-  time_h.append(time_h[-1] + t_diff)
-  speed_kmph.append(route_nyc(time_h[-1], 60)[0][0])
-  return np.array(time_h), np.array(distance_km), np.array(speed_kmph)
+#def nyc_route_traveler_euler(t0, h):
+    time_h = [t0]
+    distance_km = [0]
+    speed_kmph = [route_nyc(t0, 0)[0][0]]
+
+    while time_h[-1] <= 24:
+      t = time_h[-1] + h
+      n_distance_km = h*speed_kmph[-1] + distance_km[-1]
+      if n_distance_km > 60: break
+      distance_km.append(n_distance_km)
+      speed_kmph.append(route_nyc(t, n_distance_km)[0][0])
+      time_h.append(t)
+
+    x_diff = 60 - distance_km[-1]
+    t_diff = x_diff / speed_kmph[-1]
+
+    distance_km.append(60)
+    time_h.append(time_h[-1] + t_diff)
+    speed_kmph.append(route_nyc(time_h[-1], 60)[0][0])
+    return np.array(time_h), np.array(distance_km), np.array(speed_kmph)
 
 if __name__ == "__main__":
   time_h , distance_km , speed_kmph = nyc_route_traveler_euler(8, 0.5)
